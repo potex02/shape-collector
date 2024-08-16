@@ -1,0 +1,15 @@
+[gd_scene load_steps=3 format=3 uid="uid://c7dyqu4m4ihpq"]
+
+[ext_resource type="Texture2D" uid="uid://dqs0qcdfod3p5" path="res://assets/triangle.png" id="1_m1siu"]
+
+[sub_resource type="ConvexPolygonShape2D" id="ConvexPolygonShape2D_hhh8u"]
+points = PackedVector2Array(-16, 16, 16, 1, 16, -1, -16, -16)
+
+[node name="Pacman" type="Area2D"]
+
+[node name="Sprite2D" type="Sprite2D" parent="."]
+texture_filter = 1
+texture = ExtResource("1_m1siu")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+shape = SubResource("ConvexPolygonShape2D_hhh8u")
