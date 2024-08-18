@@ -3,37 +3,35 @@ extends Area2D
 ## The class of the game player.
 
 
+## The playe raycast
+@onready var ray_cast: RayCast2D = $RayCast
+## The rotation degrees of the player.
+var rotations: Dictionary = {
+	Vector2.LEFT: 180,
+	Vector2.RIGHT: 0,
+	Vector2.UP: 270,
+	Vector2.DOWN: 90
+}
 ## The player direction.
 var direction: Vector2
-
+## The turns of the player.
+var turn: Vector2i
 
 ## Moves the player.
 func _physics_process(delta: float) -> void:
 	
-	var old_direction: Vector2 = self.direction
+	var turn: Vector2i = Vector2i(floor(Input.get_axis("ui_left", "ui_right")), 0)
 	
-	self.direction = Vector2(Input.get_axis("ui_left", "ui_right"), 0)
-	if not self.direction:
-		self.direction.y = Input.get_axis("ui_up", "ui_down")
-	self.direction = direction.normalized()
-	if not self.direction:
-		self.direction = old_direction
-	if self._can_move():
-		self.position += direction * 2
-
-
-## Checks if the playe can move.
-func _can_move() -> bool:
-	
-	var directions: Dictionary = {
-		Vector2.LEFT: $RayCasts/Left,
-		Vector2.RIGHT: $RayCasts/Right,
-		Vector2.UP: $RayCasts/Up,
-		Vector2.DOWN: $RayCasts/Down,
-	}
-	
-	print(self.direction)
-	if not self.direction:
-		return true
-	print(directions[self.direction].get_collider())
-	return directions[self.direction].get_collider() == null
+	if not turn:
+		turn.y = floor(Input.get_axis("ui_up", "ui_down"))
+	if not self.turn:
+		self.turn = turn
+	print(Vector2i(self.position) % 32)
+	if self.turn and Vector2i(self.position) % 32 == Vector2i.ONE * 16:
+		self.direction = self.turn
+		self.rotation_degrees = self.rotations[self.direction]
+		self.turn = Vector2i.ZERO
+		return
+	print(self.ray_cast.get_collider())
+	if self.ray_cast.get_collider() == null:
+		self.position += self.direction * 2
