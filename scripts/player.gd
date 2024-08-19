@@ -26,12 +26,10 @@ func _physics_process(delta: float) -> void:
 		turn.y = floor(Input.get_axis("ui_up", "ui_down"))
 	if not self.turn:
 		self.turn = turn
-	print(Vector2i(self.position) % 32)
 	if self.turn and Vector2i(self.position) % 32 == Vector2i.ONE * 16:
 		self.direction = self.turn
 		self.rotation_degrees = self.rotations[self.direction]
 		self.turn = Vector2i.ZERO
 		return
-	print(self.ray_cast.get_collider())
 	if self.ray_cast.get_collider() == null:
 		self.position += self.direction * 2
