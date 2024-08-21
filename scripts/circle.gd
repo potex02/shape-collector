@@ -10,4 +10,6 @@ func _ready() -> void:
 
 ## handles the player collision.
 func _on_area_entered(area: Area2D) -> void:
-	print(area)
+	if area is Player:
+		area.collect()
+		self.queue_free()

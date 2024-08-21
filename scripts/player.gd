@@ -5,6 +5,8 @@ extends Area2D
 
 ## The playe raycast
 @onready var ray_cast: RayCast2D = $RayCast
+## The player score.
+var score: int = 0
 ## The rotation degrees of the player.
 var rotations: Dictionary = {
 	Vector2.LEFT: 180,
@@ -33,3 +35,9 @@ func _physics_process(delta: float) -> void:
 		return
 	if self.ray_cast.get_collider() == null:
 		self.position += self.direction * 2
+
+
+## Collects a circle.
+func collect() -> void:
+	self.score += 1
+	print(self.score)
