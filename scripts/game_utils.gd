@@ -22,7 +22,7 @@ static func open_level(level: StringName) -> Variant:
 
 
 ## Converts the [param array] to a [Vector2].
-func array_to_vector2(array: Array[float]) -> Vector2:
+static func array_to_vector2(array: Array) -> Vector2:
 	if array.size() != 2:
 		return Vector2.ZERO
 	return Vector2(array[0], array[1])
