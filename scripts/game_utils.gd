@@ -26,3 +26,8 @@ static func array_to_vector2(array: Array) -> Vector2:
 	if array.size() != 2:
 		return Vector2.ZERO
 	return Vector2(array[0], array[1])
+
+
+## Converts the coordinate to the position.
+static func coords_to_pos(coords: Vector2i) -> Vector2i:
+	return coords * 32 + Vector2i.ONE * 16

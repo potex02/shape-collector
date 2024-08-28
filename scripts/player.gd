@@ -18,6 +18,10 @@ var rotations: Dictionary = {
 var direction: Vector2
 ## The turns of the player.
 var turn: Vector2i
+## The signal emitted when the score changes.
+signal score_changed
+
+
 
 ## Moves the player.
 func _physics_process(delta: float) -> void:
@@ -40,4 +44,4 @@ func _physics_process(delta: float) -> void:
 ## Collects a circle.
 func collect() -> void:
 	self.score += 1
-	print(self.score)
+	self.score_changed.emit()
