@@ -21,7 +21,7 @@ var direction: Vector2
 func _physics_process(delta: float) -> void:
 	if Vector2i(self.position) % 32 == Vector2i.ONE * 16:
 		
-		var rand = randf()
+		var rand: float = randf()
 		
 		if rand < 0.5:
 			
