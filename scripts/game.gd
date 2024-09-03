@@ -37,6 +37,7 @@ func _ready() -> void:
 				self.add_child(circle)
 			self.tilemap.set_cell(0, coords, 0, Vector2i(row[j], 0))
 	self.player.position = GameUtils.coords_to_pos(player_position)
+	$Square.position = GameUtils.coords_to_pos(Vector2i(10, 10))
 
 
 ## Update the score label.

@@ -3,7 +3,7 @@ extends Area2D
 ## The class of the game player.
 
 
-## The playe raycast
+## The player raycast
 @onready var ray_cast: RayCast2D = $RayCast
 ## The player score.
 var score: int = 0
@@ -14,7 +14,7 @@ var rotations: Dictionary = {
 	Vector2.UP: 270,
 	Vector2.DOWN: 90
 }
-## The player direction.
+## The player current direction.
 var direction: Vector2
 ## The turns of the player.
 var turn: Vector2i

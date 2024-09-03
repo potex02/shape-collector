@@ -6,11 +6,11 @@
 [node name="Player" type="Area2D"]
 script = ExtResource("1_ym5d5")
 
-[node name="Sprite2D" type="Sprite2D" parent="."]
+[node name="Sprite" type="Sprite2D" parent="."]
 texture_filter = 1
 texture = ExtResource("1_m1siu")
 
-[node name="CollisionPolygon2D" type="CollisionPolygon2D" parent="."]
+[node name="CollisionPolygon" type="CollisionPolygon2D" parent="."]
 polygon = PackedVector2Array(-16, 16, 16, 1, 16, -1, -16, -16)
 
 [node name="RayCast" type="RayCast2D" parent="."]
