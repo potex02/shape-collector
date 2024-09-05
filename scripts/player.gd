@@ -20,6 +20,14 @@ var direction: Vector2
 var turn: Vector2i
 ## The signal emitted when the score changes.
 signal score_changed
+## The signal emitted at a game over.
+signal game_over
+
+
+
+## Connects the [signal area_entered].
+func _ready() -> void:
+	self.area_entered.connect(self._on_area_entered)
 
 
 
@@ -42,6 +50,17 @@ func _physics_process(delta: float) -> void:
 
 
 ## Collects a circle.
-func collect() -> void:
+func _collect() -> void:
 	self.score += 1
 	self.score_changed.emit()
+
+
+## Handles the areas collisions.
+func _on_area_entered(area: Area2D) -> void:
+	if area is Circle:
+		self._collect()
+		area.queue_free()
+		return
+	if area is Square:
+		self.set_physics_process(false)
+		self.game_over.emit()

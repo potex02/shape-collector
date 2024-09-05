@@ -16,11 +16,12 @@ const CIRCLE: PackedScene = preload("res://nodes/circle.tscn")
 
 ## Creates the level.
 func _ready() -> void:
-	self.player.score_changed.connect(self._on_score_changed)
 	
 	var data: Dictionary = GameUtils.open_level("level")
 	var player_position: Vector2i = GameUtils.array_to_vector2(data.player)
 	
+	self.player.score_changed.connect(self._on_score_changed)
+	self.player.game_over.connect(self._on_game_over)
 	for i in data.map.size():
 		
 		var row: Array = data.map[i]
@@ -40,6 +41,11 @@ func _ready() -> void:
 	$Square.position = GameUtils.coords_to_pos(Vector2i(10, 10))
 
 
-## Update the score label.
+## Updates the score label.
 func _on_score_changed() -> void:
 	self.score.text = str(self.player.score)
+
+
+## Handles a game over.
+func _on_game_over() -> void:
+	self.score.text = "Game Over"
