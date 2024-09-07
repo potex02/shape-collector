@@ -6,6 +6,8 @@ extends Node2D
 
 ## The circle node.
 const CIRCLE: PackedScene = preload("res://nodes/circle.tscn")
+## The diamond node.
+const DIAMOND: PackedScene = preload("res://nodes/diamond.tscn")
 ## The player node.
 @onready var player: Player = $Player
 ## The tilemap node.
@@ -30,6 +32,14 @@ func _ready() -> void:
 			
 			var coords: Vector2i = Vector2i(j, i)
 			
+			if coords == Vector2i(5, 5):
+				
+				var diamond: Diamond = Game.DIAMOND.instantiate()
+				
+				diamond.position = GameUtils.coords_to_pos(coords)
+				self.add_child(diamond)
+				self.tilemap.set_cell(0, coords, 0, Vector2i(row[j], 0))
+				continue
 			if row[j] == 1 and coords != player_position:
 				
 				var circle: Circle = Game.CIRCLE.instantiate()
