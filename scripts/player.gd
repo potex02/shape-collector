@@ -3,8 +3,12 @@ extends Area2D
 ## The class of the game player.
 
 
+## The player sprite.
+@onready var sprite: Sprite2D = $Sprite
 ## The player raycast
 @onready var ray_cast: RayCast2D = $RayCast
+## The timer used to reset the can_eat flag.
+@onready var timer: Timer = $Timer
 ## The player score.
 var score: int = 0
 ## The rotation degrees of the player.
@@ -18,6 +22,8 @@ var rotations: Dictionary = {
 var direction: Vector2
 ## The turns of the player.
 var turn: Vector2i
+## The flag indicating if the player can eat the squares.
+var can_eat: bool = false
 ## The signal emitted when the score changes.
 signal score_changed
 ## The signal emitted at a game over.
@@ -28,6 +34,9 @@ signal game_over
 ## Connects the [signal area_entered].
 func _ready() -> void:
 	self.area_entered.connect(self._on_area_entered)
+	self.timer.timeout.connect(func() -> void:
+		self.sprite.modulate = Color.WHITE
+		self.can_eat = false)
 
 
 
@@ -62,5 +71,14 @@ func _on_area_entered(area: Area2D) -> void:
 		area.queue_free()
 		return
 	if area is Square:
+		if self.can_eat:
+			area.queue_free()
+			return
 		self.set_physics_process(false)
 		self.game_over.emit()
+		return
+	if area is Diamond:
+		self.can_eat = true
+		self.sprite.modulate = Color(0, 255, 255)
+		area.queue_free()
+		self.timer.start()
