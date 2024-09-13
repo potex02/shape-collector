@@ -72,7 +72,7 @@ func _on_area_entered(area: Area2D) -> void:
 		return
 	if area is Square:
 		if self.can_eat:
-			area.queue_free()
+			area.removed.emit()
 			return
 		self.set_physics_process(false)
 		self.game_over.emit()

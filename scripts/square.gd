@@ -14,6 +14,8 @@ var directions: Array =  [
 ]
 ## The square current direction.
 var direction: Vector2
+## The signal emitted at the square removing from the level.
+signal removed
 
 
 

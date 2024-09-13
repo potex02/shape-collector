@@ -6,6 +6,8 @@ extends Node2D
 
 ## The circle node.
 const CIRCLE: PackedScene = preload("res://nodes/circle.tscn")
+## The square node.
+const SQUARE: PackedScene = preload("res://nodes/square.tscn")
 ## The diamond node.
 const DIAMOND: PackedScene = preload("res://nodes/diamond.tscn")
 ## The player node.
@@ -25,19 +27,33 @@ func _ready() -> void:
 	self.player.score_changed.connect(self._on_score_changed)
 	self.player.game_over.connect(self._on_game_over)
 	for i in data.map.size():
-		
 		var row: Array = data.map[i]
 		
 		for j in row.size():
 			
 			var coords: Vector2i = Vector2i(j, i)
 			
-			if coords == Vector2i(5, 5):
+			if coords == Vector2i(5, 5) or coords == Vector2i(10, 10):
 				
 				var diamond: Diamond = Game.DIAMOND.instantiate()
 				
 				diamond.position = GameUtils.coords_to_pos(coords)
 				self.add_child(diamond)
+				self.tilemap.set_cell(0, coords, 0, Vector2i(row[j], 0))
+				continue
+			if coords == Vector2i(10, 4):
+				
+				var square: Square = Game.SQUARE.instantiate()
+				
+				square.position = GameUtils.coords_to_pos(coords)
+				self.add_child(square)
+				square.removed.connect(func() -> void:
+					self.remove_child(square)
+					self.get_tree().create_timer(5).timeout.connect(func() -> void:
+						square.position = GameUtils.coords_to_pos(coords)
+						self.add_child(square)
+					)
+				)
 				self.tilemap.set_cell(0, coords, 0, Vector2i(row[j], 0))
 				continue
 			if row[j] == 1 and coords != player_position:
@@ -48,7 +64,6 @@ func _ready() -> void:
 				self.add_child(circle)
 			self.tilemap.set_cell(0, coords, 0, Vector2i(row[j], 0))
 	self.player.position = GameUtils.coords_to_pos(player_position)
-	$Square.position = GameUtils.coords_to_pos(Vector2i(10, 10))
 
 
 ## Updates the score label.
