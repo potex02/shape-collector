@@ -13,7 +13,7 @@ const DIAMOND: PackedScene = preload("res://nodes/diamond.tscn")
 ## The player node.
 @onready var player: Player = $Player
 ## The tilemap node.
-@onready var tilemap: TileMap = $TileMap
+@onready var tilemap_layer: TileMapLayer = $TileMapLayer
 ## The score label.
 @onready var score: Label = $CanvasLayer/Score
 
@@ -21,27 +21,28 @@ const DIAMOND: PackedScene = preload("res://nodes/diamond.tscn")
 ## Creates the level.
 func _ready() -> void:
 	
-	var data: Dictionary = GameUtils.open_level("level")
-	var player_position: Vector2i = GameUtils.array_to_vector2(data.player)
+	var data: Array = GameUtils.open_level("level")
 	
 	self.player.score_changed.connect(self._on_score_changed)
 	self.player.game_over.connect(self._on_game_over)
-	for i in data.map.size():
-		var row: Array = data.map[i]
+	for i in data.size():
+		
+		var row: Array = data[i]
 		
 		for j in row.size():
 			
 			var coords: Vector2i = Vector2i(j, i)
+			var tile: int = row[j]
 			
-			if coords == Vector2i(5, 5) or coords == Vector2i(10, 10):
+			if tile == 1:
 				
-				var diamond: Diamond = Game.DIAMOND.instantiate()
-				
-				diamond.position = GameUtils.coords_to_pos(coords)
-				self.add_child(diamond)
-				self.tilemap.set_cell(0, coords, 0, Vector2i(row[j], 0))
-				continue
-			if coords == Vector2i(10, 4):
+				var circle: Circle = Game.CIRCLE.instantiate()
+			
+				circle.position = GameUtils.coords_to_pos(coords)
+				self.add_child(circle)
+			if tile == 2:
+				self.player.position = GameUtils.coords_to_pos(coords)
+			if tile == 3:
 				
 				var square: Square = Game.SQUARE.instantiate()
 				
@@ -54,16 +55,15 @@ func _ready() -> void:
 						self.add_child(square)
 					)
 				)
-				self.tilemap.set_cell(0, coords, 0, Vector2i(row[j], 0))
-				continue
-			if row[j] == 1 and coords != player_position:
+				self.tilemap_layer.set_cell(coords, 0, Vector2i(row[j], 0))
+			if tile == 4:
 				
-				var circle: Circle = Game.CIRCLE.instantiate()
+				var diamond: Diamond = Game.DIAMOND.instantiate()
 				
-				circle.position = GameUtils.coords_to_pos(coords)
-				self.add_child(circle)
-			self.tilemap.set_cell(0, coords, 0, Vector2i(row[j], 0))
-	self.player.position = GameUtils.coords_to_pos(player_position)
+				diamond.position = GameUtils.coords_to_pos(coords)
+				self.add_child(diamond)
+				self.tilemap_layer.set_cell(coords, 0, Vector2i(row[j], 0))
+			self.tilemap_layer.set_cell(coords, 0, Vector2i(0 if tile == 0 else 1, 0))
 
 
 ## Updates the score label.
