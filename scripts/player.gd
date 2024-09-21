@@ -45,6 +45,8 @@ func _physics_process(delta: float) -> void:
 	
 	var turn: Vector2i = Vector2i(floor(Input.get_axis("ui_left", "ui_right")), 0)
 	
+	if not self.get_tree().get_nodes_in_group("circles"):
+		print("Win")
 	if not turn:
 		turn.y = floor(Input.get_axis("ui_up", "ui_down"))
 	if not self.turn:
