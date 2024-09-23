@@ -1,6 +1,6 @@
 [gd_scene load_steps=4 format=3 uid="uid://p02j0hkp5ocy"]
 
-[ext_resource type="Script" path="res://scripts/diamond.gd" id="1_513dm"]
+[ext_resource type="Script" path="res://scripts/game/diamond.gd" id="1_513dm"]
 [ext_resource type="Texture2D" uid="uid://dyco4n7of3cvv" path="res://assets/diamond.png" id="2_kqw3c"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_sy4gm"]

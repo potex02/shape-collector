@@ -14,13 +14,17 @@ var directions: Array =  [
 ]
 ## The square current direction.
 var direction: Vector2
+## The flag indicating if it's the first call to _physics_process.
+var first: bool = true
 ## The signal emitted at the square removing from the level.
 signal removed
 
 
-
 ## Moves the square.
 func _physics_process(delta: float) -> void:
+	if self.first:
+		self.first = false
+		return
 	if Vector2i(self.position) % 32 == Vector2i.ONE * 16:
 		
 		var rand: float = randf()

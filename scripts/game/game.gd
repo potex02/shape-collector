@@ -21,13 +21,14 @@ const DIAMOND: PackedScene = preload("res://nodes/diamond.tscn")
 ## Creates the level.
 func _ready() -> void:
 	
-	var data: Array = GameUtils.open_level("level")
+	var data: Dictionary = GameUtils.open_level("level")
 	
 	self.player.score_changed.connect(self._on_score_changed)
 	self.player.game_over.connect(self._on_game_over)
-	for i in data.size():
+	self.tilemap_layer.modulate = data.modulate.map
+	for i in data.map.size():
 		
-		var row: Array = data[i]
+		var row: Array = data.map[i]
 		
 		for j in row.size():
 			
@@ -39,6 +40,7 @@ func _ready() -> void:
 				var circle: Circle = Game.CIRCLE.instantiate()
 			
 				circle.position = GameUtils.coords_to_pos(coords)
+				circle.modulate = data.modulate.circles
 				self.add_child(circle)
 			if tile == 2:
 				self.player.position = GameUtils.coords_to_pos(coords)
@@ -47,10 +49,12 @@ func _ready() -> void:
 				var square: Square = Game.SQUARE.instantiate()
 				
 				square.position = GameUtils.coords_to_pos(coords)
+				square.modulate = data.modulate.squares
 				self.add_child(square)
 				square.removed.connect(func() -> void:
 					self.remove_child(square)
 					self.get_tree().create_timer(5).timeout.connect(func() -> void:
+						square.first = true
 						square.position = GameUtils.coords_to_pos(coords)
 						self.add_child(square)
 					)
@@ -61,6 +65,7 @@ func _ready() -> void:
 				var diamond: Diamond = Game.DIAMOND.instantiate()
 				
 				diamond.position = GameUtils.coords_to_pos(coords)
+				diamond.modulate = data.modulate.diamonds
 				self.add_child(diamond)
 				self.tilemap_layer.set_cell(coords, 0, Vector2i(row[j], 0))
 			self.tilemap_layer.set_cell(coords, 0, Vector2i(0 if tile == 0 else 1, 0))

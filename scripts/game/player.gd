@@ -81,6 +81,6 @@ func _on_area_entered(area: Area2D) -> void:
 		return
 	if area is Diamond:
 		self.can_eat = true
-		self.sprite.modulate = Color(0, 255, 255)
+		self.sprite.modulate = Color(0, 128, 128)
 		area.queue_free()
 		self.timer.start()
