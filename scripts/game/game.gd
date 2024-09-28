@@ -3,7 +3,6 @@ extends Node2D
 ## The main scene of the game.l
 
 
-
 ## The circle node.
 const CIRCLE: PackedScene = preload("res://nodes/circle.tscn")
 ## The square node.
@@ -16,12 +15,14 @@ const DIAMOND: PackedScene = preload("res://nodes/diamond.tscn")
 @onready var tilemap_layer: TileMapLayer = $TileMapLayer
 ## The score label.
 @onready var score: Label = $CanvasLayer/Score
+## The current level.
+var current_level: int
 
 
 ## Creates the level.
 func _ready() -> void:
 	
-	var data: Dictionary = GameUtils.open_level("level")
+	var data: Dictionary = GameUtils.open_level(self.current_level)
 	
 	self.player.score_changed.connect(self._on_score_changed)
 	self.player.game_over.connect(self._on_game_over)

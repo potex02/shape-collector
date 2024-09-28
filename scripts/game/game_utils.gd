@@ -7,9 +7,9 @@ extends RefCounted
 
 
 ## Opens a [param name].json file and returns the content.
-static func open_level(level: StringName) -> Variant:
+static func open_level(level: int) -> Variant:
 	
-	var path: StringName = &"res://levels/%s.json" % level
+	var path: StringName = &"res://levels/%d.json" % level
 	var file: FileAccess
 	var json: JSON = JSON.new()
 	
