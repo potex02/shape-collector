@@ -23,6 +23,10 @@
 	],
 	"modulate": {
 		"map": "CCC",
+		"player": {
+			"normal": "F00",
+			"power_up": "0F0"
+		},
 		"squares": "00F",
 		"circles": "0FF",
 		"diamonds": "0F0"

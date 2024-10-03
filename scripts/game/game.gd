@@ -45,6 +45,9 @@ func _ready() -> void:
 				self.add_child(circle)
 			if tile == 2:
 				self.player.position = GameUtils.coords_to_pos(coords)
+				self.player.normal_modulate = data.modulate.player.normal
+				self.player.power_up_modulate = data.modulate.player.power_up
+				self.player.modulate = self.player.normal_modulate
 			if tile == 3:
 				
 				var square: Square = Game.SQUARE.instantiate()

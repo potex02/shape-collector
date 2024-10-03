@@ -24,6 +24,10 @@ var direction: Vector2
 var turn: Vector2i
 ## The flag indicating if the player can eat the squares.
 var can_eat: bool = false
+## The normal color of the player.
+var normal_modulate: Color
+## The power up color of the player.
+var power_up_modulate: Color
 ## The signal emitted when the score changes.
 signal score_changed
 ## The signal emitted at a game over.
@@ -35,7 +39,7 @@ signal game_over
 func _ready() -> void:
 	self.area_entered.connect(self._on_area_entered)
 	self.timer.timeout.connect(func() -> void:
-		self.sprite.modulate = Color.WHITE
+		self.modulate = self.normal_modulate
 		self.can_eat = false)
 
 
@@ -81,6 +85,6 @@ func _on_area_entered(area: Area2D) -> void:
 		return
 	if area is Diamond:
 		self.can_eat = true
-		self.sprite.modulate = Color(0, 128, 128)
+		self.modulate = self.power_up_modulate
 		area.queue_free()
 		self.timer.start()
