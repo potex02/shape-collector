@@ -6,7 +6,7 @@ extends Control
 ## The game scene:
 const GAME: PackedScene = preload("res://scenes/game.tscn")
 ## The ui container.
-@onready var grid_container: GridContainer = $GridContainer
+@onready var _grid_container: GridContainer = $GridContainer
 
 
 ## Creates the ui.
@@ -19,7 +19,7 @@ func _ready() -> void:
 		button.size_flags_horizontal = Control.SIZE_EXPAND_FILL
 		button.size_flags_vertical = Control.SIZE_EXPAND_FILL
 		button.pressed.connect(self._laod_level.bind(i + 1))
-		self.grid_container.add_child(button)
+		self._grid_container.add_child(button)
 
 
 ## Loads a level.
