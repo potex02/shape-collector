@@ -18,6 +18,8 @@ func _ready() -> void:
 		button.text = str(i + 1)
 		button.size_flags_horizontal = Control.SIZE_EXPAND_FILL
 		button.size_flags_vertical = Control.SIZE_EXPAND_FILL
+		if i + 1 > GameData._last_level:
+			button.disabled = true
 		button.pressed.connect(self._laod_level.bind(i + 1))
 		self._grid_container.add_child(button)
 
